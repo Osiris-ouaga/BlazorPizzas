@@ -13,6 +13,7 @@ namespace BlazorPizzas.Pages
 
         protected List<Pizza> Basket;
         protected List<Pizza> Pizzas;
+        protected Pizza EditingPizza;
 
         protected override void OnInitialized()
         {
@@ -27,8 +28,53 @@ namespace BlazorPizzas.Pages
                 new Pizza{ Id =6, Name ="Pepperoni", Price=11, Ingredients = new[] { "mozzarella", "pepperoni", "tomates" }, ImageName = "pepperoni.jpg"  },
                 new Pizza{ Id =7, Name ="Végétarienne",Price = 10, Ingredients = new[] { "champignons", "roquette", "artichauts", "aubergine" }, ImageName = "veggie.jpg"  },
             };
+
+            EditingPizza = null;
+            isAdmin = false;
+        }
+
+        protected string Ingredients
+        {
+            get
+            {
+                return EditingPizza != null ? string.Join(separator: ",", EditingPizza.Ingredients) : null;
+            }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    EditingPizza.Ingredients = value.Split(separator: ',').Select(v => v.Trim()).ToArray();
+                }
+                else
+                {
+                    EditingPizza.Ingredients = null;
+                }
+            }
         }
 
         public void AddToBasket(Pizza pizza) => Basket.Add(pizza);
+
+        public void RemoveFromBasket(Pizza pizza) => Basket.Remove(pizza);
+
+        public void EditPizza(Pizza p)
+        {
+            EditingPizza = new Pizza
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageName = p.ImageName,
+                Ingredients = p.Ingredients,
+                Price = p.Price
+            };
+        }
+
+        public void Close()
+        {
+            var pizza = Pizzas.Find(p => p.Id == EditingPizza.Id);
+            pizza.Price = EditingPizza.Price;
+            pizza.Name = EditingPizza.Name;
+            pizza.Ingredients = EditingPizza.Ingredients;
+            EditingPizza = null;
+        }
     }
 }
