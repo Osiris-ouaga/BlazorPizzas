@@ -10,7 +10,7 @@
 {
     <div class="row">
         <div class="col">
-            <EditForm Model="EditingPizza">
+            <EditForm Model="EditingPizza" OnValidSubmit="Close">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div class="form-group">
                     <label for="title">Nom</label>
@@ -27,6 +27,7 @@
                     <InputNumber @bind-Value="EditingPizza.Price" class="form-control" id="price"></InputNumber>
                     <small ValidationMessage for="() => EditingPizza.Price"></small>
                 </div>
+                <button type="submit" class="btn btn-primary" >Fermer</button>
             </EditForm>
         </div>
     </div>
@@ -50,7 +51,7 @@
                 {
                     <div class="edit-pizza" @onclick="() => EditPizza(pizza)">
                         <i class="fas fa-edit"></i>
-                    </div><!-- FIN zone édition en admin -->
+                    </div>
                 }
 
             </div>
@@ -60,13 +61,11 @@
         <div class="basket">
             @foreach (var pizza in Basket)
             {
-                <!-- template ligne panier -->
                 <div class="basket-line">
                     <div class="pizza-title basket-col1">@pizza.Name</div>
                     <div class="pizza-price">@pizza.Price.ToString("0.00")</div>
                     <div class="basket-delete" @onclick="() => RemoveFromBasket(pizza)"><i class="fas fa-times"></i></div>
                 </div>
-                <!-- fin template ligne panier -->
             }
             <div class="basket-total pizza-price">Total : @Basket.Sum(p => p.Price)&euro;</div>
         </div>
