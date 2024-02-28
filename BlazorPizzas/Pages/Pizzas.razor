@@ -10,7 +10,7 @@
 {
     <div class="row">
         <div class="col">
-            <EditForm Model="EditingPizza">
+            <EditForm Model="EditingPizza"OnValidSubmit="Close">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div class="form-group">
                     <label for="title">Nom</label>
@@ -27,7 +27,7 @@
                     <InputNumber @bind-Value="EditingPizza.Price" class="form-control" id="price"></InputNumber>
                     <small ValidationMessage for="() => EditingPizza.Price"></small>
                 </div>
-                <button type="submit" class="btn btn-primary" OnValidSubmit="Close">Fermer</button>
+                <button type="submit" class="btn btn-primary" >Fermer</button>
             </EditForm>
         </div>
     </div>
